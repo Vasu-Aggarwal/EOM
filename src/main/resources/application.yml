@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: "EOM"
+
+#  redis:
+#    host: localhost
+#    port: 6379
+
+  #    EMAIL CONFIGURATION
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: split.ease01@gmail.com
+#    password: ${SPLITEASE_SMTP_PASSWORD}
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
