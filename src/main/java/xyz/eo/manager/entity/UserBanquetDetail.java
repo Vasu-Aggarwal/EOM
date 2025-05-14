@@ -8,7 +8,7 @@ import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "event_detail")
+@Table(name = "user_banquet_detail")
 @Getter
 @Setter
 @AllArgsConstructor

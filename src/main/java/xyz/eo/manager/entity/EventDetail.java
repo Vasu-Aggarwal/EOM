@@ -17,8 +17,7 @@ import java.util.List;
 @Table(name = "event_detail",
         indexes = {
                 @Index(name = "idx_banquet_id", columnList = "banquet_id"),
-                @Index(name = "idx_banquet_date", columnList = "banquet_id, date_booked"),
-                @Index(name = "idx_meal_time", columnList = "meal_time")
+                @Index(name = "idx_banquet_date", columnList = "banquet_id, date_booked")
         })
 @Getter
 @Setter
