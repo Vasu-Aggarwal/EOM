@@ -21,9 +21,9 @@ public class UserBanquetDetail extends Auditable {
     @Column(name = "user_banquet_id")
     private Long userBanquetId;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "banquet_id")
+    @Column(name = "banquet_id", nullable = false)
     private Long banquetId;
 }

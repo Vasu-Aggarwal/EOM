@@ -9,7 +9,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import xyz.eo.manager.util.enums.MealType;
 
 @Entity
-@Table(name = "menu_item")
+@Table(name = "menu_item",
+        indexes = {
+                @Index(name = "idx_menu_item_category", columnList = "menu_item_id, menu_category_id"),
+                @Index(name = "idx_menu_item_name", columnList = "menu_item_name")
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_menu_item_category", columnNames = {"menu_item_name", "menu_category_id"})
+        })
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,13 +27,15 @@ public class MenuCardItem extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_item_id")
     private Long menuItemId;
-    private String name;
-    private String description;
-    @Column(name = "sequence_no")
+    @Column(name = "menu_item_name", nullable = false)
+    private String menuItemName;
+    @Column(name = "menu_item_desc")
+    private String menuItemDesc;
+    @Column(name = "sequence_no", nullable = false)
     private Integer sequenceNo;
-    @Column(name = "menu_category_id")
+    @Column(name = "menu_category_id", nullable = false)
     private Long menuCategoryId;
-    @Column(name = "meal_type")
+    @Column(name = "meal_type", nullable = false)
     private MealType mealType;
     @Column(name = "img_url")
     private String imgUrl;

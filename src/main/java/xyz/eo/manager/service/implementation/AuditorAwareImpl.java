@@ -1,5 +1,6 @@
 package xyz.eo.manager.service.implementation;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.AuditorAware;
 
 import java.util.Optional;

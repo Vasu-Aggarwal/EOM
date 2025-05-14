@@ -20,10 +20,11 @@ public class PaymentDetail extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payment_id")
     private Long paymentId;
+    @Column(nullable = false)
     private Double amount;
-    @Column(name = "payment_mode")
+    @Column(name = "payment_mode", nullable = false)
     private PaymentMode paymentMode;
     private String description;
-    @Column(name = "event_id")
+    @Column(name = "event_id", nullable = false)
     private Long eventId;
 }

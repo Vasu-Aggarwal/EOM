@@ -8,7 +8,11 @@ import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user",
+        indexes = {
+            @Index(name = "idx_user_email", columnList = "email"),
+            @Index(name = "idx_user_mobile", columnList = "mobile")
+        })
 @Getter
 @Setter
 @AllArgsConstructor
