@@ -38,6 +38,8 @@ logging:
     org:
       springframework:
         security: DEBUG
+        data:
+          redis: DEBUG
       hibernate:
         SQL: DEBUG
         type: TRACE

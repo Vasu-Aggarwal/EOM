@@ -4,9 +4,10 @@ spring:
   application:
     name: EOM
 
-#  redis:
-#    host: localhost
-#    port: 6379
+  redis:
+    host: 13.218.160.88
+    port: 6379
+    password: xyzeom123
 
   #    EMAIL CONFIGURATION
 #  mail:
