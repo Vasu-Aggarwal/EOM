@@ -14,4 +14,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @readOnlyQuery
     @Modifying
     Optional<User> getUserById(Long userId);
+
+    @Query(value = "SELECT * FROM user WHERE username =?1 AND email =?2 AND phone", nativeQuery = true)
+    Optional<User> findByUser(String username, String email, String phone);
+
+    @Query(value = "SELECT * FROM user WHERE username =?1 AND email =?2", nativeQuery = true)
+    Optional<User> findByUser(String username, String email);
 }

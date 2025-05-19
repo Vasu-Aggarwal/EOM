@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import xyz.eo.manager.util.PermissionConvertor;
+import xyz.eo.manager.util.Permissions;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -36,5 +39,8 @@ public class User extends Auditable {
     @Column(name = "password")
     private String password;
     @Column(name = "role_id", nullable = false)
-    private String roleId;
+    private Integer roleId;
+    @Convert(converter = PermissionConvertor.class)
+    @Column(name = "permissions", columnDefinition = "TEXT")
+    private Permissions permissions;
 }
