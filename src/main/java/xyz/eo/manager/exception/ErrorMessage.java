@@ -1,5 +1,4 @@
-package xyz.eo.manager.dto.response;
-
+package xyz.eo.manager.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,9 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class BadApiResponse{
+@NoArgsConstructor
+public class ErrorMessage extends RuntimeException{
     private String message;
     private Integer status;
 }

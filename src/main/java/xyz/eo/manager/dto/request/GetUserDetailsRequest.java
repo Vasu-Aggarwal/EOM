@@ -1,5 +1,4 @@
-package xyz.eo.manager.dto.response;
-
+package xyz.eo.manager.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,9 +7,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class BadApiResponse{
-    private String message;
-    private Integer status;
+@NoArgsConstructor
+public class GetUserDetailsRequest {
+    private Long userId;
 }

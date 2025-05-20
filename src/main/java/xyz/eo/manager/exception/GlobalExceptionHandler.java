@@ -22,4 +22,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(badApiResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ErrorMessage.class)
+    public ResponseEntity<BadApiResponse> handleErrorMessage(ErrorMessage errorMessage){
+        BadApiResponse badApiResponse = new BadApiResponse();
+        badApiResponse.setMessage(errorMessage.getMessage());
+        badApiResponse.setStatus(errorMessage.getStatus());
+        return new ResponseEntity<>(badApiResponse, HttpStatus.BAD_REQUEST);
+    }
+
 }

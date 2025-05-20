@@ -1,16 +1,14 @@
 package xyz.eo.manager.dto.response;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BadApiResponse{
+@Builder
+public class LoginResponse {
     private String message;
     private Integer status;
+    private String token;
 }

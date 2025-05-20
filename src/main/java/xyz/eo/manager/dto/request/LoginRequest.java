@@ -1,5 +1,4 @@
-package xyz.eo.manager.dto.response;
-
+package xyz.eo.manager.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BadApiResponse{
-    private String message;
-    private Integer status;
+public class LoginRequest {
+    private String username;
+    private String password;
 }

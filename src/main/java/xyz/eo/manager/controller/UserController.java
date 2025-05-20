@@ -1,12 +1,11 @@
 package xyz.eo.manager.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import xyz.eo.manager.dto.model.userDto;
+import xyz.eo.manager.dto.request.GetUserDetailsRequest;
+import xyz.eo.manager.dto.request.UserDto;
 import xyz.eo.manager.dto.response.addUpdateUserResponse;
 import xyz.eo.manager.service.UserService;
 import xyz.eo.manager.util.endpoints.UserEndpoints;
@@ -19,8 +18,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping(UserEndpoints.ADD_UPDATE_USER)
-    public addUpdateUserResponse addUpdateUser(@RequestBody userDto request) {
+    public addUpdateUserResponse addUpdateUser(@RequestBody UserDto request) {
         return userService.addUpdateUser(request);
-        
+    }
+
+    @PostMapping(UserEndpoints.GET_USER_DETAILS +"/{userId}")
+    public UserDto getUserDetails(@Valid @PathVariable("userId") Long userid) {
+        return userService.getUserDetail(userid);
     }
 }
