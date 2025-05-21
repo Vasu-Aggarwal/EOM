@@ -49,12 +49,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/signup").permitAll()
-//                        .requestMatchers("/api/**").authenticated()
+                        .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .exceptionHandling(ex->ex.authenticationEntryPoint(this.point))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        httpSecurity.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(daoAuthenticationProvider());
         return httpSecurity.build();
     }
 

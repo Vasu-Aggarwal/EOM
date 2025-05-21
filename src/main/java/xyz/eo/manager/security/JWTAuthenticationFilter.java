@@ -70,6 +70,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             if (validateToken) {
                 //set the authentication
                 String role = (String) jwtHelper.getAllClaimsFromToken(token).get("role");
+                request.setAttribute("role", role);
+                request.setAttribute("roleId", (Integer) jwtHelper.getAllClaimsFromToken(token).get("roleId"));
                 List<GrantedAuthority> authorities = Collections.singletonList(
                         new SimpleGrantedAuthority("ROLE_" + role)
                 );

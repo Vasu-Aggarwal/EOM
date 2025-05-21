@@ -1,5 +1,7 @@
 package xyz.eo.manager.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +20,8 @@ public class UserController {
     private UserService userService;
 
     @PostMapping(UserEndpoints.ADD_UPDATE_USER)
-    public addUpdateUserResponse addUpdateUser(@RequestBody UserDto request) {
-        return userService.addUpdateUser(request);
+    public addUpdateUserResponse addUpdateUser(HttpServletRequest roleId, @RequestBody UserDto request) {
+        return userService.addUpdateUser((Integer) roleId.getAttribute("roleId"), request);
     }
 
     @PostMapping(UserEndpoints.GET_USER_DETAILS +"/{userId}")

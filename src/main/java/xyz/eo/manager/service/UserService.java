@@ -5,7 +5,7 @@ import xyz.eo.manager.dto.request.UserDto;
 import xyz.eo.manager.dto.response.addUpdateUserResponse;
 
 public interface UserService {
-    addUpdateUserResponse addUpdateUser(UserDto request);
+    addUpdateUserResponse addUpdateUser(Integer roleId, UserDto request);
     UserDto getUserDetail(Long request);
 
 }
