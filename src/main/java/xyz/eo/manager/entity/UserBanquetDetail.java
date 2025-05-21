@@ -8,7 +8,10 @@ import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "user_banquet_detail")
+@Table(name = "user_banquet_detail",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_ubd_user_banquet", columnNames = {"banquet_id", "user_id"})
+        })
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,4 +29,9 @@ public class UserBanquetDetail extends Auditable {
 
     @Column(name = "banquet_id", nullable = false)
     private Long banquetId;
+
+    public UserBanquetDetail(Long userId, Long banquetId){
+        this.userId = userId;
+        this.banquetId = banquetId;
+    }
 }
