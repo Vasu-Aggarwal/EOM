@@ -5,11 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import xyz.eo.manager.dto.request.GetUserDetailsRequest;
 import xyz.eo.manager.dto.request.UserDto;
 import xyz.eo.manager.dto.response.addUpdateUserResponse;
 import xyz.eo.manager.entity.User;
-import xyz.eo.manager.exception.ErrorMessage;
+import xyz.eo.manager.exception.ErrorMessageException;
 import xyz.eo.manager.repository.UserRepository;
 import xyz.eo.manager.security.JwtHelper;
 import xyz.eo.manager.service.UserService;
@@ -34,10 +33,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public addUpdateUserResponse addUpdateUser(Integer roleId, UserDto request) {
         if(!checkHierarchy(roleId, request.getRoleId())){
-            throw new ErrorMessage("You are not allowed to add/update user with roleId "+request.getRoleId(), 403);
+            throw new ErrorMessageException("You are not allowed to add/update user with roleId "+request.getRoleId(), 403);
         }
         if(request.getUserId() != null){
-            User user = userRepository.findByUserId(request.getUserId()).orElseThrow(() -> new ErrorMessage("User Not Found", 404));
+            User user = userRepository.findByUserId(request.getUserId()).orElseThrow(() -> new ErrorMessageException("User Not Found", 404));
             user.setName(request.getName());
             user.setEmail(request.getEmail());
             user.setMobile(request.getMobile());
@@ -58,7 +57,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto getUserDetail(Long userId) {
-        User user = userRepository.findByUserId(userId).orElseThrow(() -> new ErrorMessage("User Not Found", 404));
+        User user = userRepository.findByUserId(userId).orElseThrow(() -> new ErrorMessageException("User Not Found", 404));
         return modelMapper.map(user, UserDto.class);
     }
 

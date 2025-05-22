@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorMessage extends RuntimeException{
+public class ErrorMessageException extends RuntimeException{
     private String message;
     private Integer status;
 }
