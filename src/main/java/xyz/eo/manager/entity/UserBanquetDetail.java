@@ -1,10 +1,7 @@
 package xyz.eo.manager.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -30,8 +27,10 @@ public class UserBanquetDetail extends Auditable {
     @Column(name = "banquet_id", nullable = false)
     private Long banquetId;
 
-    public UserBanquetDetail(Long userId, Long banquetId){
+    @Builder
+    public UserBanquetDetail(Long userId, Long banquetId, Integer status){
         this.userId = userId;
         this.banquetId = banquetId;
+        super.setStatus(status);
     }
 }

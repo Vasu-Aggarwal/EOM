@@ -22,8 +22,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(badApiResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(ErrorMessage.class)
-    public ResponseEntity<BadApiResponse> handleErrorMessage(ErrorMessage errorMessage){
+    @ExceptionHandler(ErrorMessageException.class)
+    public ResponseEntity<BadApiResponse> handleErrorMessage(ErrorMessageException errorMessage){
         BadApiResponse badApiResponse = new BadApiResponse();
         badApiResponse.setMessage(errorMessage.getMessage());
         badApiResponse.setStatus(errorMessage.getStatus());
