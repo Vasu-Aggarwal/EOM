@@ -2,6 +2,7 @@ package xyz.eo.manager.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+import jakarta.validation.constraints.NotNull;
 
 import java.lang.annotation.*;
 

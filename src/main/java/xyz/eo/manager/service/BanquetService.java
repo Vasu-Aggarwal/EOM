@@ -16,7 +16,7 @@ public interface BanquetService {
      * 6. When adding/updating the banquet, <code>link_admin</code> mentioned admin(s) must not be present. if
      * present then their state can be directly updated.
      */
-    GetBanquetDetailsByIdResponse addUpdateBanquetDetails(String role, AddUpdateBanquetRequest addUpdateBanquetRequest);
+    GetBanquetDetailsByIdResponse addUpdateBanquetDetails(Integer role, AddUpdateBanquetRequest addUpdateBanquetRequest);
     GetBanquetDetailsByIdResponse getBanquetDetails(Long banquetId);
-    StatusUpdateResponse updateUserBanquetStatus(UpdateUserBanquetStatusRequest updateUserBanquetStatusRequest);
+    StatusUpdateResponse updateUserBanquetStatus(Integer role, UpdateUserBanquetStatusRequest updateUserBanquetStatusRequest);
 }

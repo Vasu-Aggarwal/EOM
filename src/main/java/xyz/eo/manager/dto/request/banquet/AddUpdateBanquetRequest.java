@@ -1,6 +1,7 @@
 package xyz.eo.manager.dto.request.banquet;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import xyz.eo.manager.util.enums.BanquetStatus;
 import xyz.eo.manager.validator.ValidStatusFromEnum;

@@ -4,21 +4,26 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import xyz.eo.manager.dto.model.UserBanquetDetailAndRoleDto;
 import xyz.eo.manager.dto.request.banquet.AddUpdateBanquetRequest;
 import xyz.eo.manager.dto.request.banquet.UpdateUserBanquetStatusRequest;
 import xyz.eo.manager.dto.response.StatusUpdateResponse;
 import xyz.eo.manager.dto.response.banquet.GetBanquetDetailsByIdResponse;
 import xyz.eo.manager.entity.Banquet;
+import xyz.eo.manager.entity.User;
 import xyz.eo.manager.entity.UserBanquetDetail;
 import xyz.eo.manager.exception.ErrorMessageException;
 import xyz.eo.manager.exception.NotAuthorizedException;
 import xyz.eo.manager.repository.BanquetRepository;
 import xyz.eo.manager.repository.UserBanquetDetailRepository;
+import xyz.eo.manager.repository.UserRepository;
 import xyz.eo.manager.service.BanquetService;
 import xyz.eo.manager.util.ErrorMessage;
 import xyz.eo.manager.util.UtilMethods;
 import xyz.eo.manager.util.enums.BanquetStatus;
 import xyz.eo.manager.util.enums.UserBanquetStatus;
+
+import static xyz.eo.manager.util.HierarchyCheckMap.checkHierarchy;
 
 @Service
 public class BanquetServiceImpl implements BanquetService {
@@ -32,9 +37,12 @@ public class BanquetServiceImpl implements BanquetService {
     @Autowired
     private UserBanquetDetailRepository userBanquetDetailRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
-    public GetBanquetDetailsByIdResponse addUpdateBanquetDetails(String role, AddUpdateBanquetRequest request) {
+    public GetBanquetDetailsByIdResponse addUpdateBanquetDetails(Integer role, AddUpdateBanquetRequest request) {
         try {
             Banquet banquet;
 
@@ -72,7 +80,8 @@ public class BanquetServiceImpl implements BanquetService {
             banquetRepository.save(banquet);
             Long savedBanquetId = banquet.getBanquetId();
             for (Long userId : request.getLinkAdmin()) {
-                UserBanquetDetail userPresence = userBanquetDetailRepository.getUbdByUserAndBanquet(userId,
+                userRepository.findByUserId(userId).orElseThrow(() -> new ErrorMessageException("User not found", 0));
+                UserBanquetDetailAndRoleDto userPresence = userBanquetDetailRepository.getUbdByUserAndBanquet(userId,
                         savedBanquetId).orElse(null);
 
                 /*if admin is already present with inactive or deleted state then throw error, SA have to update the
@@ -102,14 +111,13 @@ public class BanquetServiceImpl implements BanquetService {
 
     @Override
     @Transactional
-    public StatusUpdateResponse updateUserBanquetStatus(UpdateUserBanquetStatusRequest request) {
-        UserBanquetDetail userBanquetDetail =
-                userBanquetDetailRepository.getUbdByUserAndBanquet(request.getUserId(),
-                        request.getBanquetId()).orElseThrow(() -> new ErrorMessageException(ErrorMessage.RESOURCE_NOT_FOUND
-                        , 0));
-        if (userBanquetDetail.getStatus().equals(UserBanquetStatus.ACTIVE.getStatus()))
-            throw new ErrorMessageException(ErrorMessage.USER_ALREADY_ACTIVE, 0);
+    public StatusUpdateResponse updateUserBanquetStatus(Integer roleId, UpdateUserBanquetStatusRequest request) {
+        UserBanquetDetailAndRoleDto userBanquetDetailAndRoleDto = userBanquetDetailRepository.getUbdByUserAndBanquet(request.getUserId(),
+                request.getBanquetId()).orElseThrow(() -> new ErrorMessageException(ErrorMessage.RESOURCE_NOT_FOUND, 0));
 
+        if(!checkHierarchy(roleId, userBanquetDetailAndRoleDto.getRoleId())){
+            throw new NotAuthorizedException("You are not allowed to update the status!");
+        }
         userBanquetDetailRepository.updateStatus(request.getUserId(), request.getBanquetId(), request.getStatus());
         return StatusUpdateResponse.builder().message("Status updated successfully !").build();
     }

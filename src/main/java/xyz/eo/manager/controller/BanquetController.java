@@ -24,7 +24,7 @@ public class BanquetController {
     public ResponseEntity<GetBanquetDetailsByIdResponse> addUpdateBanquetDetails(HttpServletRequest request,
                                                                                  @RequestBody @Valid AddUpdateBanquetRequest addUpdateBanquetRequest){
         GetBanquetDetailsByIdResponse banquetDetailsByIdResponse =
-                banquetService.addUpdateBanquetDetails(request.getAttribute("role").toString(),
+                banquetService.addUpdateBanquetDetails((Integer) request.getAttribute("roleId"),
                         addUpdateBanquetRequest);
         return new ResponseEntity<>(banquetDetailsByIdResponse, HttpStatus.OK);
     }
@@ -36,8 +36,8 @@ public class BanquetController {
     }
 
     @PatchMapping(BanquetEndpoints.UPDATE_USER_BANQUET_STATUS)
-    public ResponseEntity<StatusUpdateResponse> updateUserBanquetStatus(@RequestBody @Valid UpdateUserBanquetStatusRequest updateUserBanquetStatusRequest){
-        StatusUpdateResponse statusUpdateResponse = banquetService.updateUserBanquetStatus(updateUserBanquetStatusRequest);
+    public ResponseEntity<StatusUpdateResponse> updateUserBanquetStatus(HttpServletRequest request, @RequestBody @Valid UpdateUserBanquetStatusRequest updateUserBanquetStatusRequest){
+        StatusUpdateResponse statusUpdateResponse = banquetService.updateUserBanquetStatus((Integer) request.getAttribute("roleId"), updateUserBanquetStatusRequest);
         return new ResponseEntity<>(statusUpdateResponse, HttpStatus.OK);
     }
 
