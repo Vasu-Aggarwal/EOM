@@ -1,4 +1,4 @@
-package xyz.eo.manager.dto.response;
+package xyz.eo.manager.dto.response.banquet;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

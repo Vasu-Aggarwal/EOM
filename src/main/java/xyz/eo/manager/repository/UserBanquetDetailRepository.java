@@ -14,4 +14,8 @@ public interface UserBanquetDetailRepository extends JpaRepository<UserBanquetDe
     @Query("SELECT ubd FROM UserBanquetDetail ubd WHERE ubd.userId = :userId AND ubd.banquetId = :banquetId")
     Optional<UserBanquetDetail> getUbdByUserAndBanquet(Long userId, Long banquetId);
 
+    @Modifying
+    @Query("UPDATE UserBanquetDetail ubd SET ubd.status = :status WHERE ubd.userId = :userId AND ubd.banquetId = :banquetId")
+    void updateStatus(Long userId, Long banquetId, Integer status);
+
 }

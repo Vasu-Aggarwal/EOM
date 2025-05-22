@@ -1,7 +1,9 @@
 package xyz.eo.manager.service;
 
 import xyz.eo.manager.dto.request.banquet.AddUpdateBanquetRequest;
-import xyz.eo.manager.dto.response.GetBanquetDetailsByIdResponse;
+import xyz.eo.manager.dto.request.banquet.UpdateUserBanquetStatusRequest;
+import xyz.eo.manager.dto.response.StatusUpdateResponse;
+import xyz.eo.manager.dto.response.banquet.GetBanquetDetailsByIdResponse;
 
 public interface BanquetService {
     /**
@@ -15,6 +17,6 @@ public interface BanquetService {
      * present then their state can be directly updated.
      */
     GetBanquetDetailsByIdResponse addUpdateBanquetDetails(String role, AddUpdateBanquetRequest addUpdateBanquetRequest);
-
     GetBanquetDetailsByIdResponse getBanquetDetails(Long banquetId);
+    StatusUpdateResponse updateUserBanquetStatus(UpdateUserBanquetStatusRequest updateUserBanquetStatusRequest);
 }

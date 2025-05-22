@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.eo.manager.dto.request.banquet.AddUpdateBanquetRequest;
-import xyz.eo.manager.dto.response.GetBanquetDetailsByIdResponse;
+import xyz.eo.manager.dto.request.banquet.UpdateUserBanquetStatusRequest;
+import xyz.eo.manager.dto.response.StatusUpdateResponse;
+import xyz.eo.manager.dto.response.banquet.GetBanquetDetailsByIdResponse;
 import xyz.eo.manager.entity.Banquet;
 import xyz.eo.manager.entity.UserBanquetDetail;
 import xyz.eo.manager.exception.ErrorMessageException;
@@ -69,13 +71,13 @@ public class BanquetServiceImpl implements BanquetService {
 
             banquetRepository.save(banquet);
             Long savedBanquetId = banquet.getBanquetId();
-            for (Long userId: request.getLinkAdmin()){
+            for (Long userId : request.getLinkAdmin()) {
                 UserBanquetDetail userPresence = userBanquetDetailRepository.getUbdByUserAndBanquet(userId,
                         savedBanquetId).orElse(null);
 
                 /*if admin is already present with inactive or deleted state then throw error, SA have to update the
                 state of admin to active.*/
-                if(userPresence != null) {
+                if (userPresence != null) {
                     if (userPresence.getStatus().equals(UserBanquetStatus.INACTIVE.getStatus()) || userPresence.getStatus().equals(UserBanquetStatus.DELETED.getStatus()))
                         throw new ErrorMessageException(ErrorMessage.LINK_ADMIN_ALREADY_PRESENT_INACTIVE_DELETED, 0);
                 } else {
@@ -94,8 +96,21 @@ public class BanquetServiceImpl implements BanquetService {
 
     @Override
     public GetBanquetDetailsByIdResponse getBanquetDetails(Long banquetId) {
-        Banquet banquet =
-                banquetRepository.getBanquetById(banquetId).orElseThrow(() -> new ErrorMessageException(ErrorMessage.RESOURCE_NOT_FOUND, 0));
+        Banquet banquet = banquetRepository.getBanquetById(banquetId).orElseThrow(() -> new ErrorMessageException(ErrorMessage.RESOURCE_NOT_FOUND, 0));
         return modelMapper.map(banquet, GetBanquetDetailsByIdResponse.class);
+    }
+
+    @Override
+    @Transactional
+    public StatusUpdateResponse updateUserBanquetStatus(UpdateUserBanquetStatusRequest request) {
+        UserBanquetDetail userBanquetDetail =
+                userBanquetDetailRepository.getUbdByUserAndBanquet(request.getUserId(),
+                        request.getBanquetId()).orElseThrow(() -> new ErrorMessageException(ErrorMessage.RESOURCE_NOT_FOUND
+                        , 0));
+        if (userBanquetDetail.getStatus().equals(UserBanquetStatus.ACTIVE.getStatus()))
+            throw new ErrorMessageException(ErrorMessage.USER_ALREADY_ACTIVE, 0);
+
+        userBanquetDetailRepository.updateStatus(request.getUserId(), request.getBanquetId(), request.getStatus());
+        return StatusUpdateResponse.builder().message("Status updated successfully !").build();
     }
 }

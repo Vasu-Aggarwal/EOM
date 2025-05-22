@@ -7,10 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.eo.manager.dto.request.banquet.AddUpdateBanquetRequest;
-import xyz.eo.manager.dto.response.GetBanquetDetailsByIdResponse;
+import xyz.eo.manager.dto.request.banquet.UpdateUserBanquetStatusRequest;
+import xyz.eo.manager.dto.response.StatusUpdateResponse;
+import xyz.eo.manager.dto.response.banquet.GetBanquetDetailsByIdResponse;
 import xyz.eo.manager.service.BanquetService;
 import xyz.eo.manager.util.endpoints.BanquetEndpoints;
-import xyz.eo.manager.util.enums.UserRole;
 
 @RestController
 @RequestMapping(BanquetEndpoints.BANQUET)
@@ -32,6 +33,12 @@ public class BanquetController {
     public ResponseEntity<GetBanquetDetailsByIdResponse> getBanquetDetailsById(@PathVariable Long banquetId){
         GetBanquetDetailsByIdResponse banquetDetailsByIdResponse = banquetService.getBanquetDetails(banquetId);
         return new ResponseEntity<>(banquetDetailsByIdResponse, HttpStatus.OK);
+    }
+
+    @PatchMapping(BanquetEndpoints.UPDATE_USER_BANQUET_STATUS)
+    public ResponseEntity<StatusUpdateResponse> updateUserBanquetStatus(@RequestBody @Valid UpdateUserBanquetStatusRequest updateUserBanquetStatusRequest){
+        StatusUpdateResponse statusUpdateResponse = banquetService.updateUserBanquetStatus(updateUserBanquetStatusRequest);
+        return new ResponseEntity<>(statusUpdateResponse, HttpStatus.OK);
     }
 
 }
