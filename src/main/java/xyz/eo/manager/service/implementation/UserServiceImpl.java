@@ -16,6 +16,7 @@ import xyz.eo.manager.dto.response.GetUserPermissionsResponse;
 import xyz.eo.manager.dto.response.LoginResponse;
 import xyz.eo.manager.dto.response.addUpdateUserResponse;
 import xyz.eo.manager.entity.User;
+import xyz.eo.manager.exception.ErrorMessageException;
 import xyz.eo.manager.repository.UserRepository;
 import xyz.eo.manager.security.JwtHelper;
 import xyz.eo.manager.service.UserService;
@@ -76,7 +77,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public AddUpdateUserRequest getUserDetail(Long userId) {
-        User user = userRepository.findByUserId(userId).orElseThrow(() -> new ErrorMessage("User Not Found", 404));
+        User user = userRepository.findByUserId(userId).orElseThrow(() -> new ErrorMessageException("User Not Found", 404));
         return modelMapper.map(user, AddUpdateUserRequest.class);
     }
 
@@ -99,7 +100,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public GetUserPermissionsResponse getUserPermissions(Long userId) {
         Permissions permissions = userRepository.findByUserId(userId)
-               .orElseThrow(() -> new ErrorMessage("User Not Found", 404))
+               .orElseThrow(() -> new ErrorMessageException("User Not Found", 404))
                .getPermissions();
         return modelMapper.map(permissions, GetUserPermissionsResponse.class);
     }
