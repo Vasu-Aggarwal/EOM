@@ -14,6 +14,10 @@ import xyz.eo.manager.validator.ValidStatusFromEnum;
 @NoArgsConstructor
 public class UpdateUserBanquetStatusRequest {
 
+    @NotNull(message = "Updating user Id cannot be null")
+    @JsonProperty(value = "updated_by")
+    private Long updatedBy;
+
     @NotNull(message = "User Id cannot be null")
     @JsonProperty(value = "user_id")
     private Long userId;

@@ -15,6 +15,9 @@ import java.util.List;
 @Builder
 public class AddUpdateBanquetRequest {
 
+    @JsonProperty("user_id")
+    private Long userId;
+
     @JsonProperty(value = "banquet_id")
     private Long banquetId;
 

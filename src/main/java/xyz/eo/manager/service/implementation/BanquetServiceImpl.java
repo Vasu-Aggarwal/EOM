@@ -18,6 +18,7 @@ import xyz.eo.manager.repository.BanquetRepository;
 import xyz.eo.manager.repository.UserBanquetDetailRepository;
 import xyz.eo.manager.repository.UserRepository;
 import xyz.eo.manager.service.BanquetService;
+import xyz.eo.manager.service.UserService;
 import xyz.eo.manager.util.ErrorMessage;
 import xyz.eo.manager.util.UtilMethods;
 import xyz.eo.manager.util.enums.BanquetStatus;
@@ -40,11 +41,18 @@ public class BanquetServiceImpl implements BanquetService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     @Transactional
     public GetBanquetDetailsByIdResponse addUpdateBanquetDetails(Integer role, AddUpdateBanquetRequest request) {
         try {
             Banquet banquet;
+
+            //only allowed users can add update the banquet
+            if (!userService.getUserPermissions(request.getUserId()).getCanUpdateBanquet())
+                throw new NotAuthorizedException(ErrorMessage.NOT_AUTHORIZED_TO_ASSIGN_ADMINS);
 
             //only super admin should be able to link admins to banquet
             if (!UtilMethods.isSuperAdmin(role) && request.getLinkAdmin() != null && !request.getLinkAdmin().isEmpty()) {
@@ -104,7 +112,10 @@ public class BanquetServiceImpl implements BanquetService {
 
 
     @Override
-    public GetBanquetDetailsByIdResponse getBanquetDetails(Long banquetId) {
+    public GetBanquetDetailsByIdResponse getBanquetDetails(Long userId, Long banquetId) {
+        if (!userService.getUserPermissions(userId).getCanViewBanquet())
+            throw new NotAuthorizedException("You are not authorized to view the banquet details");
+
         Banquet banquet = banquetRepository.getBanquetById(banquetId).orElseThrow(() -> new ErrorMessageException(ErrorMessage.RESOURCE_NOT_FOUND, 0));
         return modelMapper.map(banquet, GetBanquetDetailsByIdResponse.class);
     }
@@ -112,6 +123,9 @@ public class BanquetServiceImpl implements BanquetService {
     @Override
     @Transactional
     public StatusUpdateResponse updateUserBanquetStatus(Integer roleId, UpdateUserBanquetStatusRequest request) {
+        if (!userService.getUserPermissions(request.getUpdatedBy()).getCanAddUpdateUser())
+            throw new NotAuthorizedException("Required permission is missing");
+
         UserBanquetDetailAndRoleDto userBanquetDetailAndRoleDto = userBanquetDetailRepository.getUbdByUserAndBanquet(request.getUserId(),
                 request.getBanquetId()).orElseThrow(() -> new ErrorMessageException(ErrorMessage.RESOURCE_NOT_FOUND, 0));
 

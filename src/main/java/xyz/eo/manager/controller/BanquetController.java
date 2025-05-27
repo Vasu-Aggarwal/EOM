@@ -30,8 +30,8 @@ public class BanquetController {
     }
 
     @GetMapping(BanquetEndpoints.GET_BANQUET_DETAILS)
-    public ResponseEntity<GetBanquetDetailsByIdResponse> getBanquetDetailsById(@PathVariable Long banquetId){
-        GetBanquetDetailsByIdResponse banquetDetailsByIdResponse = banquetService.getBanquetDetails(banquetId);
+    public ResponseEntity<GetBanquetDetailsByIdResponse> getBanquetDetailsById(@RequestParam Long userId, @PathVariable Long banquetId){
+        GetBanquetDetailsByIdResponse banquetDetailsByIdResponse = banquetService.getBanquetDetails(userId, banquetId);
         return new ResponseEntity<>(banquetDetailsByIdResponse, HttpStatus.OK);
     }
 
