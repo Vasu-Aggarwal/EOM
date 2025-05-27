@@ -16,6 +16,6 @@ public class AuthenticateUserService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return (UserDetails) this.userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Username not found", null));
+        return (UserDetails) this.userRepository.findByEmailOrMobile(username).orElseThrow(() -> new UsernameNotFoundException("Username not found", null));
     }
 }

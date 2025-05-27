@@ -3,6 +3,7 @@ package xyz.eo.manager.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import xyz.eo.manager.entity.User;
 import xyz.eo.manager.validator.readOnlyQuery;
 
@@ -30,7 +31,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT * FROM user WHERE mobile = ?1", nativeQuery = true)
     Optional<User> findByMobile(String mobile);
 
-
-
-
+    @Query("SELECT u FROM User u WHERE u.email = :input OR u.mobile = :input")
+    Optional<User> findByEmailOrMobile(@Param("input") String input);
 }

@@ -6,7 +6,7 @@ import xyz.eo.manager.util.Permissions;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class AddUpdateUserRequest {
     private Long userId;
     private String name;
     private String email;
