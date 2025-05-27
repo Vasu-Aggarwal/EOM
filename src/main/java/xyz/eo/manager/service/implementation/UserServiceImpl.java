@@ -16,7 +16,6 @@ import xyz.eo.manager.dto.response.GetUserPermissionsResponse;
 import xyz.eo.manager.dto.response.LoginResponse;
 import xyz.eo.manager.dto.response.addUpdateUserResponse;
 import xyz.eo.manager.entity.User;
-import xyz.eo.manager.exception.ErrorMessage;
 import xyz.eo.manager.repository.UserRepository;
 import xyz.eo.manager.security.JwtHelper;
 import xyz.eo.manager.service.UserService;
@@ -52,11 +51,11 @@ public class UserServiceImpl implements UserService{
     public addUpdateUserResponse addUpdateUser(Integer roleId, AddUpdateUserRequest request) {
 
         if(!checkHierarchy(roleId, request.getRoleId())){
-            throw new ErrorMessage("You are not allowed to add/update user with roleId "+request.getRoleId(), 403);
+            throw new ErrorMessageException("You are not allowed to add/update user with roleId "+request.getRoleId(), 403);
         }
 
         if(request.getUserId() != null){
-            User user = userRepository.findByUserId(request.getUserId()).orElseThrow(() -> new ErrorMessage("User Not Found", 404));
+            User user = userRepository.findByUserId(request.getUserId()).orElseThrow(() -> new ErrorMessageException("User Not Found", 404));
             user.setName(request.getName());
             user.setEmail(request.getEmail());
             user.setMobile(request.getMobile());
