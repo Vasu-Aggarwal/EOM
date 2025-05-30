@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import org.springframework.web.ErrorResponseException;
 import xyz.eo.manager.dto.request.LoginRequest;
 import xyz.eo.manager.dto.request.AddUpdateUserRequest;
 import xyz.eo.manager.dto.response.GetUserPermissionsResponse;
@@ -85,10 +86,10 @@ public class UserServiceImpl implements UserService{
     public LoginResponse login(LoginRequest request) {
         String username = request.getUsername();
         String password = request.getPassword();
+        User user = userRepo.findByEmailOrMobile(username)
+                .orElseThrow(() -> new ErrorMessageException("Invalid username or password!!", 0));
         doAuthenticate(username, password);
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        User user = userRepo.findByEmailOrMobile(username)
-                .orElseThrow(() -> new BadCredentialsException("Invalid username or password!!"));
         String token = jwtHelper.generateToken(userDetails, user.getRoleId(), user.getUserId());
         return LoginResponse.builder()
                 .message("User successfully authenticated")

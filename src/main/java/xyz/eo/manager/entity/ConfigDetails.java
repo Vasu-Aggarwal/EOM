@@ -20,9 +20,9 @@ public class ConfigDetails extends Auditable{
     @Column(name = "config_id")
     private Integer configId;
 
-    @Column(name = "key", unique = true, nullable = false)
-    private String key;
+    @Column(name = "config_key", unique = true, nullable = false)
+    private String configKey;
 
-    @Column(name = "value", nullable = false)
+    @Column(name = "value", nullable = false, columnDefinition = "TEXT")
     private String value;
 }
