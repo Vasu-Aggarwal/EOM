@@ -10,7 +10,6 @@ import xyz.eo.manager.dto.request.banquet.UpdateUserBanquetStatusRequest;
 import xyz.eo.manager.dto.response.StatusUpdateResponse;
 import xyz.eo.manager.dto.response.banquet.GetBanquetDetailsByIdResponse;
 import xyz.eo.manager.entity.Banquet;
-import xyz.eo.manager.entity.User;
 import xyz.eo.manager.entity.UserBanquetDetail;
 import xyz.eo.manager.exception.ErrorMessageException;
 import xyz.eo.manager.exception.NotAuthorizedException;
@@ -89,7 +88,7 @@ public class BanquetServiceImpl implements BanquetService {
             Long savedBanquetId = banquet.getBanquetId();
             for (Long userId : request.getLinkAdmin()) {
                 userRepository.findByUserId(userId).orElseThrow(() -> new ErrorMessageException("User not found", 0));
-                UserBanquetDetailAndRoleDto userPresence = userBanquetDetailRepository.getUbdByUserAndBanquet(userId,
+                UserBanquetDetailAndRoleDto userPresence = userBanquetDetailRepository.getActiveUbdByUserAndBanquet(userId,
                         savedBanquetId).orElse(null);
 
                 /*if admin is already present with inactive or deleted state then throw error, SA have to update the
@@ -126,7 +125,7 @@ public class BanquetServiceImpl implements BanquetService {
         if (!userService.getUserPermissions(request.getUpdatedBy()).getCanAddUpdateUser())
             throw new NotAuthorizedException("Required permission is missing");
 
-        UserBanquetDetailAndRoleDto userBanquetDetailAndRoleDto = userBanquetDetailRepository.getUbdByUserAndBanquet(request.getUserId(),
+        UserBanquetDetailAndRoleDto userBanquetDetailAndRoleDto = userBanquetDetailRepository.getActiveUbdByUserAndBanquet(request.getUserId(),
                 request.getBanquetId()).orElseThrow(() -> new ErrorMessageException(ErrorMessage.RESOURCE_NOT_FOUND, 0));
 
         if(!checkHierarchy(roleId, userBanquetDetailAndRoleDto.getRoleId())){

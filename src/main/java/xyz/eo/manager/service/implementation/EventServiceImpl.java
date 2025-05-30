@@ -1,13 +1,11 @@
 package xyz.eo.manager.service.implementation;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.eo.manager.dto.request.event.AddUpdateEventRequest;
 import xyz.eo.manager.dto.response.GetUserPermissionsResponse;
 import xyz.eo.manager.dto.response.event.AddUpdateEventResponse;
-import xyz.eo.manager.entity.Banquet;
 import xyz.eo.manager.entity.EventDetail;
 import xyz.eo.manager.exception.ErrorMessageException;
 import xyz.eo.manager.repository.BanquetRepository;
@@ -39,7 +37,7 @@ public class EventServiceImpl implements EventService {
         if (!permissions.getCanAddUpdateEvent())
             throw new ErrorMessageException("You don't have required permissions to add/update the event", 0);
 
-        if (ubdRepository.getUbdByUserAndBanquet(request.getUserId(), request.getBanquetId()).isEmpty())
+        if (ubdRepository.getActiveUbdByUserAndBanquet(request.getUserId(), request.getBanquetId()).isEmpty())
             throw new ErrorMessageException("User banquet mapping not found", 0);
 
         else if (request.getEventId() == null){  //add a new event
