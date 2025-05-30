@@ -36,7 +36,7 @@ public class EventTypeServiceImpl implements EventTypeService {
     public AddUpdateEventTypeResponse addUpdateEventType(AddUpdateEventTypeRequest request) {
         // Validate user-banquet mapping
         ubdRepo.getActiveUbdByUserAndBanquet(request.getUserId(), request.getBanquetId())
-                .orElseThrow(() -> new ErrorMessageException("User-Banquet mapping not found", 0));
+                .orElseThrow(() -> new ErrorMessageException("User Banquet mapping not found", 0));
 
         EventType eventType;
         if (request.getEventTypeId() != null) {

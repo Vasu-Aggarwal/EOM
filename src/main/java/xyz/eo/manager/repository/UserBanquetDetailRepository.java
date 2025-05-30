@@ -26,6 +26,16 @@ public interface UserBanquetDetailRepository extends JpaRepository<UserBanquetDe
      *
      * @param userId
      * @param banquetId
+     * @return All the users with their current status. (ACTIVE, INACTIVE, DELETED)
+     */
+    @readOnlyQuery
+    @Query("SELECT new xyz.eo.manager.dto.model.UserBanquetDetailAndRoleDto(ubd.status, u.roleId) FROM UserBanquetDetail ubd JOIN User u ON ubd.userId = u.userId WHERE ubd.userId = :userId AND ubd.banquetId = :banquetId")
+    Optional<UserBanquetDetailAndRoleDto> getUbdByUserAndBanquet(Long userId, Long banquetId);
+
+    /**
+     *
+     * @param userId
+     * @param banquetId
      * @param status
      */
     @Modifying

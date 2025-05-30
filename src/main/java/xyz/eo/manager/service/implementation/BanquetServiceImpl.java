@@ -88,7 +88,7 @@ public class BanquetServiceImpl implements BanquetService {
             Long savedBanquetId = banquet.getBanquetId();
             for (Long userId : request.getLinkAdmin()) {
                 userRepository.findByUserId(userId).orElseThrow(() -> new ErrorMessageException("User not found", 0));
-                UserBanquetDetailAndRoleDto userPresence = userBanquetDetailRepository.getActiveUbdByUserAndBanquet(userId,
+                UserBanquetDetailAndRoleDto userPresence = userBanquetDetailRepository.getUbdByUserAndBanquet(userId,
                         savedBanquetId).orElse(null);
 
                 /*if admin is already present with inactive or deleted state then throw error, SA have to update the
