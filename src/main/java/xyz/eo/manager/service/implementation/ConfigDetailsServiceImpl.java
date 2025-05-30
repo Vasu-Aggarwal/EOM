@@ -19,21 +19,17 @@ public class ConfigDetailsServiceImpl implements ConfigDetailsService {
 
     @Override
     public ConfigKeyResponse getConfigKeyDetails(String key) {
-        return repository.findByKey(key).map(e -> new ConfigKeyResponse(e.getConfigKey(), e.getValue())).orElseThrow(() -> new ErrorMessageException("Key does not exists", 0));
+        String value = repository.findByKey(key).orElseThrow(() -> new ErrorMessageException("Invalid key", 0));
+        return new ConfigKeyResponse(key, value);
     }
 
     @Override
     @Transactional
     public ConfigKeyResponse putConfigKeyDetails(String key, String value) {
-        ConfigDetails entity = repository.findByKey(key)
-                .map(existing -> {
-                    existing.setConfigKey(key);
-                    existing.setValue(value);
-                    return existing;
-                })
-                .orElseGet(() -> new ConfigDetails(null, key, value));
-
-        repository.save(entity);
-        return new ConfigKeyResponse(entity.getConfigKey(), entity.getValue());
+        int updated = repository.updateValueByKey(key, value);
+        if (updated == 0) {
+            repository.save(new ConfigDetails(null, key, value));
+        }
+        return new ConfigKeyResponse(key, value);
     }
 }
