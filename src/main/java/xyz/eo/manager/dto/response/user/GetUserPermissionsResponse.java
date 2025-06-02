@@ -1,4 +1,4 @@
-package xyz.eo.manager.dto.response;
+package xyz.eo.manager.dto.response.user;
 
 import xyz.eo.manager.util.Permissions;
 

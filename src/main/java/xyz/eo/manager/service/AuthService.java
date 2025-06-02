@@ -1,10 +1,12 @@
 package xyz.eo.manager.service;
 
-import xyz.eo.manager.dto.request.AddUpdateUserRequest;
-import xyz.eo.manager.dto.response.LoginResponse;
-import xyz.eo.manager.dto.response.SignUpResponse;
+import xyz.eo.manager.dto.request.user.AddUpdateUserRequest;
+import xyz.eo.manager.dto.request.user.LoginRequest;
+import xyz.eo.manager.dto.request.user.SignUpRequest;
+import xyz.eo.manager.dto.response.user.LoginResponse;
+import xyz.eo.manager.dto.response.user.SignUpResponse;
 
 public interface AuthService {
-    LoginResponse login(String username, String password);
-    SignUpResponse signUp(AddUpdateUserRequest signUpRequest);
+    LoginResponse login(LoginRequest loginRequest);
+    SignUpResponse signUp(SignUpRequest signUpRequest);
 }

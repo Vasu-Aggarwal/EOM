@@ -1,21 +1,17 @@
 package xyz.eo.manager.controller;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.eo.manager.dto.request.LoginRequest;
-import xyz.eo.manager.dto.response.LoginResponse;
-import xyz.eo.manager.entity.User;
-import xyz.eo.manager.repository.UserRepository;
-import xyz.eo.manager.security.JwtHelper;
+import xyz.eo.manager.dto.request.user.LoginRequest;
+import xyz.eo.manager.dto.request.user.SignUpRequest;
+import xyz.eo.manager.dto.response.user.LoginResponse;
+import xyz.eo.manager.dto.response.user.SignUpResponse;
+import xyz.eo.manager.service.AuthService;
 import xyz.eo.manager.service.UserService;
 import xyz.eo.manager.util.endpoints.AuthEndpoints;
 
@@ -25,13 +21,16 @@ public class AuthController {
 
 
     @Autowired
-    private UserService userService;
+    private AuthService authService;
 
     @PostMapping(AuthEndpoints.LOGIN)
-    public LoginResponse login(@RequestBody LoginRequest request) {
-        return userService.login(request);
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        return new ResponseEntity<>(authService.login(request), HttpStatus.OK);
     }
 
-
+    @PostMapping(AuthEndpoints.SIGN_UP)
+    public SignUpResponse signUp(@RequestBody SignUpRequest request) {
+        return authService.signUp(request);
+    }
 
 }

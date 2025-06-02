@@ -16,13 +16,17 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import xyz.eo.manager.exception.UserNotFoundException;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+
+import static xyz.eo.manager.util.ErrorMessage.FULL_AUTHENTICATION_REQUIRED;
 
 @Component
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
@@ -33,10 +37,12 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestHeader = request.getHeader("Authorization");
         //Bearer 2352345235sdfrsfgsdfsdf
+        request.getRequestURI().contains("auth");
         logger.info(" Header :  {}", requestHeader);
         String username = null;
         String token = null;
@@ -64,23 +70,29 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         }
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             //fetch user detail from username
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            Boolean validateToken = this.jwtHelper.validateToken(token, userDetails);
+            UserDetails userDetails = null;
+            try {
+                userDetails = this.userDetailsService.loadUserByUsername(username);
+                Boolean validateToken = this.jwtHelper.validateToken(token, userDetails);
 
-            if (validateToken) {
-                //set the authentication
-                String role = (String) jwtHelper.getAllClaimsFromToken(token).get("role");
-                request.setAttribute("role", role);
-                request.setAttribute("roleId", (Integer) jwtHelper.getAllClaimsFromToken(token).get("roleId"));
-                List<GrantedAuthority> authorities = Collections.singletonList(
-                        new SimpleGrantedAuthority("ROLE_" + role)
-                );
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                logger.info("Authentication set in SecurityContextHolder: "+SecurityContextHolder.getContext().getAuthentication());
-            } else {
-                logger.info("Validation fails !!");
+                if (validateToken) {
+                    //set the authentication
+                    String role = (String) jwtHelper.getAllClaimsFromToken(token).get("role");
+                    request.setAttribute("role", role);
+                    request.setAttribute("roleId", (Integer) jwtHelper.getAllClaimsFromToken(token).get("roleId"));
+                    List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    logger.info("Authentication set in SecurityContextHolder: " + SecurityContextHolder.getContext().getAuthentication());
+                } else {
+                    logger.info("Validation fails !!");
+                }
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"message\":\"" + FULL_AUTHENTICATION_REQUIRED + "\"}");
+                return;
             }
         }
         filterChain.doFilter(request, response);
