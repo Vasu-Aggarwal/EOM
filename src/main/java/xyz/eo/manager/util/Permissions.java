@@ -17,4 +17,5 @@ public class Permissions {
     private Boolean canViewBanquet;
     private Boolean canAddUpdateMenu;
     private Boolean canDeleteMenu;
+    private Boolean canAddUpdateEvent;
 }

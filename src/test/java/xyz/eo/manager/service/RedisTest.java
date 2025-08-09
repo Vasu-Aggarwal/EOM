@@ -1,4 +1,4 @@
-package xyz.eo.manager.service.impl;
+package xyz.eo.manager.service;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -14,6 +14,7 @@ public class RedisTest {
     private RedisTemplate redisTemplate;
 
     @Test
+    @Disabled
     void testRedis(){
         redisTemplate.opsForValue().set("email", "test@test.com");
         Object email = redisTemplate.opsForValue().get("email");

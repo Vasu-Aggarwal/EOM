@@ -12,6 +12,7 @@ import xyz.eo.manager.dto.request.user.AddUpdateUserRequest;
 import xyz.eo.manager.dto.response.user.GetUserPermissionsResponse;
 import xyz.eo.manager.dto.response.user.LoginResponse;
 import xyz.eo.manager.dto.response.user.addUpdateUserResponse;
+import org.springframework.web.ErrorResponseException;
 import xyz.eo.manager.entity.User;
 import xyz.eo.manager.exception.ErrorMessageException;
 import xyz.eo.manager.repository.UserRepository;
