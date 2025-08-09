@@ -21,9 +21,11 @@ public class UpdateUserBanquetStatusRequest {
     private Long updatedBy;
 
     @NotNull(message = "User Id cannot be null")
+    @JsonProperty(value = "user_id")
     private Long userId;
 
     @NotNull(message = "Banquet Id cannot be null")
+    @JsonProperty(value = "banquet_id")
     private Long banquetId;
 
     @NotNull(message = "Status cannot be null")

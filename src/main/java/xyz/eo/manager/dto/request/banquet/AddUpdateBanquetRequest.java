@@ -17,12 +17,21 @@ import java.util.List;
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class AddUpdateBanquetRequest {
+
     private Long userId;
+
+    @JsonProperty(value = "banquet_id")
     private Long banquetId;
+
+    @JsonProperty(value = "banquet_name")
     private String banquetName;
+
+    @JsonProperty(value = "banquet_location")
     private String banquetLocation;
 
     @ValidStatusFromEnum(enumClass = BanquetStatus.class)
     private Integer status;
+
+    @JsonProperty(value = "link_admin")
     private List<Long> linkAdmin;
 }

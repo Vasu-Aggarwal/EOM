@@ -12,8 +12,11 @@ import lombok.*;
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class GetBanquetDetailsByIdResponse {
+    @JsonProperty(value = "banquet_id")
     private Long banquetId;
+    @JsonProperty(value = "banquet_name")
     private String banquetName;
+    @JsonProperty(value = "banquet_location")
     private String banquetLocation;
     private Integer status;
 }

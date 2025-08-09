@@ -106,11 +106,11 @@ public class UserServiceImpl implements UserService{
         return modelMapper.map(permissions, GetUserPermissionsResponse.class);
     }
 
-    public void doAuthenticate(String username, String password){
+    public void doAuthenticate(String username, String password) {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, password);
-        try{
+        try {
             manager.authenticate(authentication);
-        }catch (BadCredentialsException e){
+        } catch (BadCredentialsException e) {
             throw new BadCredentialsException("Invalid username or password in doAuthenticate !!");
         }
     }

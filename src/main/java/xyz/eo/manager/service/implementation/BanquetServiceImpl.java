@@ -10,6 +10,7 @@ import xyz.eo.manager.dto.request.banquet.UpdateUserBanquetStatusRequest;
 import xyz.eo.manager.dto.response.StatusUpdateResponse;
 import xyz.eo.manager.dto.response.banquet.GetBanquetDetailsByIdResponse;
 import xyz.eo.manager.entity.Banquet;
+import xyz.eo.manager.entity.User;
 import xyz.eo.manager.entity.UserBanquetDetail;
 import xyz.eo.manager.exception.ErrorMessageException;
 import xyz.eo.manager.exception.NotAuthorizedException;
