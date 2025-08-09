@@ -1,4 +1,4 @@
-package xyz.eo.manager.dto.request;
+package xyz.eo.manager.dto.request.user;
 
 import lombok.*;
 import xyz.eo.manager.util.Permissions;

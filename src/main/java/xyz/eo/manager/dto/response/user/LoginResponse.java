@@ -1,4 +1,4 @@
-package xyz.eo.manager.dto.response;
+package xyz.eo.manager.dto.response.user;
 
 import lombok.*;
 
@@ -7,7 +7,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SignUpResponse {
+public class LoginResponse {
     private String message;
     private Integer status;
+    private String token;
 }

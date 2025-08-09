@@ -2,6 +2,7 @@ package xyz.eo.manager.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -36,6 +37,14 @@ public class GlobalExceptionHandler {
         badApiResponse.setMessage(errorMessage.getMessage());
         badApiResponse.setStatus(0);
         return new ResponseEntity<>(badApiResponse, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<BadApiResponse> handleUserNotFoundException(UserNotFoundException errorMessage){
+        BadApiResponse badApiResponse = new BadApiResponse();
+        badApiResponse.setMessage(errorMessage.getMessage());
+        badApiResponse.setStatus(0);
+        return new ResponseEntity<>(badApiResponse, HttpStatus.NOT_FOUND);
     }
 
 }

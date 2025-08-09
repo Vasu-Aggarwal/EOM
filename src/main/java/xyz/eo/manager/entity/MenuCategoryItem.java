@@ -22,7 +22,7 @@ import xyz.eo.manager.util.enums.MealType;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class MenuCardItem extends Auditable {
+public class MenuCategoryItem extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_item_id")

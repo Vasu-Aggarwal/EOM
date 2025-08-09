@@ -1,4 +1,4 @@
-package xyz.eo.manager.dto.request;
+package xyz.eo.manager.dto.request.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,8 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class GetUserDetailsRequest {
-    private Long userId;
+@AllArgsConstructor
+public class LoginRequest {
+    private String username;
+    private String password;
 }

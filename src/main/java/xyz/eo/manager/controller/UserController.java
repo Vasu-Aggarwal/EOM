@@ -5,9 +5,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import xyz.eo.manager.dto.request.AddUpdateUserRequest;
-import xyz.eo.manager.dto.response.GetUserPermissionsResponse;
-import xyz.eo.manager.dto.response.addUpdateUserResponse;
+import xyz.eo.manager.dto.request.user.AddUpdateUserRequest;
+import xyz.eo.manager.dto.response.user.GetUserPermissionsResponse;
+import xyz.eo.manager.dto.response.user.addUpdateUserResponse;
 import xyz.eo.manager.service.UserService;
 import xyz.eo.manager.util.endpoints.UserEndpoints;
 

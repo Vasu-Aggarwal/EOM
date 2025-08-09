@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.eo.manager.exception.ErrorMessageException;
+import xyz.eo.manager.exception.ErrorMessageException;
+import xyz.eo.manager.exception.UserNotFoundException;
 import xyz.eo.manager.repository.UserRepository;
 
 @Service
@@ -17,6 +19,6 @@ public class AuthenticateUserService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) {
-        return this.userRepository.findByEmailOrMobile(username).orElseThrow(() -> new ErrorMessageException("Username not found", 0));
+        return (UserDetails) this.userRepository.findByEmailOrMobile(username).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }
 }
