@@ -22,4 +22,20 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(badApiResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ErrorMessageException.class)
+    public ResponseEntity<BadApiResponse> handleErrorMessage(ErrorMessageException errorMessage){
+        BadApiResponse badApiResponse = new BadApiResponse();
+        badApiResponse.setMessage(errorMessage.getMessage());
+        badApiResponse.setStatus(errorMessage.getStatus());
+        return new ResponseEntity<>(badApiResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotAuthorizedException.class)
+    public ResponseEntity<BadApiResponse> notAuthorizedException(NotAuthorizedException errorMessage){
+        BadApiResponse badApiResponse = new BadApiResponse();
+        badApiResponse.setMessage(errorMessage.getMessage());
+        badApiResponse.setStatus(0);
+        return new ResponseEntity<>(badApiResponse, HttpStatus.FORBIDDEN);
+    }
+
 }

@@ -4,8 +4,14 @@ import lombok.Getter;
 
 @Getter
 public enum FunctionType {
-    BIRTHDAY,
-    WEDDING,
-    RING_CEREMONY,
-    ROKA;
+    BIRTHDAY(1),
+    WEDDING(2),
+    RING_CEREMONY(3),
+    ROKA(4),
+    OTHER(5);
+
+    private final Integer eventType;
+    FunctionType(Integer eventType){
+        this.eventType = eventType;
+    }
 }

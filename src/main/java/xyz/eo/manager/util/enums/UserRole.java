@@ -15,4 +15,13 @@ public enum UserRole {
     UserRole(Integer roleId) {
         this.roleId = roleId;
     }
+
+    public static String getRoleNameById(Integer roleId) {
+        for(UserRole role : UserRole.values()) {
+            if(role.getRoleId().equals(roleId)) {
+                return role.name();
+            }
+        }
+        return null;
+    }
 }
