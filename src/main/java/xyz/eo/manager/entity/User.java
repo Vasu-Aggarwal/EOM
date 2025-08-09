@@ -56,9 +56,13 @@ public class User extends Auditable implements UserDetails {
 
     @Override
     public String getUsername() {
-        if (this.email != null)
+        if (this.email != null && !this.email.trim().isEmpty()) {
             return this.email;
-        return this.mobile;
+        } else if (this.mobile != null && !this.mobile.trim().isEmpty()) {
+            return this.mobile;
+        } else {
+            return "UNKNOWN"; // or throw exception based on your business logic
+        }
     }
 
     @Override

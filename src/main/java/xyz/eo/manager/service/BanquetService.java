@@ -17,6 +17,6 @@ public interface BanquetService {
      * present then their state can be directly updated.
      */
     GetBanquetDetailsByIdResponse addUpdateBanquetDetails(Integer role, AddUpdateBanquetRequest addUpdateBanquetRequest);
-    GetBanquetDetailsByIdResponse getBanquetDetails(Long banquetId);
+    GetBanquetDetailsByIdResponse getBanquetDetails(Long userId, Long banquetId);
     StatusUpdateResponse updateUserBanquetStatus(Integer role, UpdateUserBanquetStatusRequest updateUserBanquetStatusRequest);
 }
